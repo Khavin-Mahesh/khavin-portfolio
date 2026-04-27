@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Khavin Mahesh's Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #080b10;
+  --surface: #0e1118;
+  --surface2: #141824;
+  --surface3: #1b2130;
+  --accent: #00f0b5;
+  --accent2: #4d6cfa;
+  --accent3: #f04d6d;
+  --text: #dde2f0;
+  --muted: #5a6180;
+  --border: rgba(255,255,255,0.07);
+  --border-accent: rgba(0,240,181,0.2);
+  --glow: 0 0 40px rgba(0,240,181,0.12);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden;min-height:100vh;cursor:none;}
+#cur{width:10px;height:10px;background:var(--accent);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;mix-blend-mode:screen;transform:translate(-50%,-50%);}
+#cur-ring{width:34px;height:34px;border:1.5px solid rgba(0,240,181,0.5);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .2s,height .2s,border-color .2s;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,240,181,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,240,181,0.025) 1px,transparent 1px);background-size:70px 70px;pointer-events:none;z-index:0;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 3rem;height:62px;background:rgba(8,11,16,0.92);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);}
+.nav-logo{font-family:'Space Mono',monospace;font-size:.82rem;color:var(--accent);text-decoration:none;letter-spacing:.1em;display:flex;align-items:center;gap:.5rem;}
+.nav-logo-dot{width:7px;height:7px;background:var(--accent);border-radius:50%;animation:blink 2s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+.nav-tabs{display:flex;align-items:center;gap:.2rem;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:.25rem;}
+.nav-tab{font-family:'Space Mono',monospace;font-size:.65rem;padding:.4rem .85rem;border-radius:5px;cursor:pointer;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;transition:all .2s;border:none;background:transparent;}
+.nav-tab:hover{color:var(--text);}
+.nav-tab.active{background:var(--surface3);color:var(--accent);box-shadow:inset 0 0 0 1px var(--border-accent);}
+.nav-right{display:flex;align-items:center;gap:.7rem;}
+.nav-ext{font-family:'Space Mono',monospace;font-size:.65rem;color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:.4rem;padding:.38rem .75rem;border:1px solid var(--border);border-radius:5px;transition:all .2s;letter-spacing:.05em;}
+.nav-ext:hover{color:var(--accent);border-color:var(--border-accent);}
+.nav-cta{font-family:'Space Mono',monospace;font-size:.65rem;background:var(--accent);color:var(--bg);padding:.42rem 1rem;border-radius:5px;text-decoration:none;font-weight:700;letter-spacing:.05em;transition:all .2s;}
+.nav-cta:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(0,240,181,0.25);}
+
+/* PAGES */
+.page{display:none;position:relative;z-index:1;min-height:calc(100vh - 62px);margin-top:62px;}
+.page.active{display:block;}
+
+/* HOME */
+.home-hero{min-height:calc(100vh - 62px);display:grid;grid-template-columns:1fr 400px;align-items:center;gap:3.5rem;padding:5rem 3rem 4rem;max-width:1240px;margin:0 auto;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:.6rem;font-family:'Space Mono',monospace;font-size:.68rem;color:var(--accent);border:1px solid var(--border-accent);padding:.32rem .85rem;border-radius:4px;letter-spacing:.15em;text-transform:uppercase;margin-bottom:1.8rem;}
+.hero-eyebrow span{width:6px;height:6px;background:var(--accent);border-radius:50%;animation:blink 2s infinite;}
+.hero-name{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(3.2rem,6.5vw,6.5rem);line-height:.92;letter-spacing:-.04em;margin-bottom:1.6rem;}
+.hero-name .l1{color:#fff;}
+.hero-name .l2{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-sub{font-size:1rem;color:var(--muted);line-height:1.75;max-width:480px;margin-bottom:2.2rem;font-weight:300;}
+.hero-sub strong{color:var(--text);font-weight:500;}
+.hero-actions{display:flex;gap:.7rem;flex-wrap:wrap;margin-bottom:2.5rem;}
+.btn-p{display:inline-flex;align-items:center;gap:.5rem;background:var(--accent);color:var(--bg);padding:.75rem 1.5rem;font-family:'Space Mono',monospace;font-size:.72rem;font-weight:700;text-decoration:none;border-radius:5px;letter-spacing:.05em;transition:all .25s;border:none;cursor:pointer;}
+.btn-p:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(0,240,181,0.28);}
+.btn-g{display:inline-flex;align-items:center;gap:.5rem;border:1px solid var(--border);color:var(--text);padding:.75rem 1.5rem;font-family:'Space Mono',monospace;font-size:.72rem;text-decoration:none;border-radius:5px;letter-spacing:.05em;transition:all .25s;background:transparent;cursor:pointer;}
+.btn-g:hover{border-color:var(--accent);color:var(--accent);}
+.hero-tags{display:flex;gap:.4rem;flex-wrap:wrap;}
+.htag{font-family:'Space Mono',monospace;font-size:.6rem;padding:.25rem .65rem;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:3px;color:var(--muted);letter-spacing:.05em;}
+
+/* HERO CARD */
+.hcard{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.8rem;position:relative;overflow:hidden;}
+.hcard::before{content:'';position:absolute;top:-50px;right:-50px;width:180px;height:180px;background:radial-gradient(circle,rgba(0,240,181,.1),transparent 70%);border-radius:50%;}
+.hc-top{display:flex;align-items:center;gap:.9rem;padding-bottom:1.4rem;border-bottom:1px solid var(--border);margin-bottom:1.4rem;}
+.hc-av{width:52px;height:52px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;color:var(--bg);flex-shrink:0;}
+.hc-nm{font-family:'Syne',sans-serif;font-weight:700;font-size:.95rem;}
+.hc-ttl{font-size:.76rem;color:var(--muted);margin-top:.15rem;}
+.hc-stats{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-bottom:1.3rem;}
+.hc-stat{background:var(--surface2);border-radius:7px;padding:.8rem;text-align:center;border:1px solid var(--border);}
+.hc-sn{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;color:var(--accent);}
+.hc-sl{font-size:.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-top:.1rem;}
+.hc-status{display:flex;align-items:center;gap:.55rem;background:rgba(0,240,181,.06);border:1px solid rgba(0,240,181,.15);border-radius:6px;padding:.65rem .9rem;margin-bottom:.9rem;font-size:.78rem;color:var(--text);}
+.hc-dot{width:7px;height:7px;background:var(--accent);border-radius:50%;flex-shrink:0;animation:blink 2s infinite;}
+.hc-chips{display:flex;flex-wrap:wrap;gap:.35rem;}
+.hc-chip{font-family:'Space Mono',monospace;font-size:.58rem;color:var(--accent2);background:rgba(77,108,250,.08);border:1px solid rgba(77,108,250,.2);padding:.22rem .55rem;border-radius:3px;}
+
+/* SHARED PAGE */
+.pw{max-width:1160px;margin:0 auto;padding:3.5rem 3rem 6rem;}
+.ph{margin-bottom:3rem;}
+.pg-lbl{font-family:'Space Mono',monospace;font-size:.65rem;color:var(--accent);letter-spacing:.2em;text-transform:uppercase;display:flex;align-items:center;gap:.7rem;margin-bottom:.7rem;}
+.pg-lbl::before{content:'';width:22px;height:1px;background:var(--accent);}
+.pg-ttl{font-family:'Syne',sans-serif;font-size:clamp(1.9rem,3.5vw,2.8rem);font-weight:800;letter-spacing:-.03em;line-height:1.05;}
+
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1fr 340px;gap:3.5rem;align-items:start;}
+.about-body p{font-size:.94rem;line-height:1.85;color:#8d93aa;margin-bottom:1rem;}
+.about-body p strong{color:var(--text);font-weight:500;}
+.aside{display:flex;flex-direction:column;gap:1.1rem;}
+.info-card{background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:1.4rem;}
+.ic-title{font-family:'Space Mono',monospace;font-size:.62rem;color:var(--accent);text-transform:uppercase;letter-spacing:.15em;margin-bottom:.9rem;}
+.edu-item{padding:.9rem 0;border-bottom:1px solid var(--border);position:relative;padding-left:1rem;}
+.edu-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--accent),var(--accent2));border-radius:2px;}
+.edu-item:last-child{border-bottom:none;}
+.edu-sch{font-weight:600;font-size:.88rem;margin-bottom:.15rem;}
+.edu-deg{font-size:.78rem;color:var(--muted);}
+.edu-dt{font-family:'Space Mono',monospace;font-size:.62rem;color:var(--accent);margin-top:.35rem;}
+.cr{display:flex;align-items:center;gap:.65rem;font-size:.8rem;color:#8d93aa;padding:.45rem 0;border-bottom:1px solid var(--border);}
+.cr:last-child{border-bottom:none;}
+.cr a{color:#8d93aa;text-decoration:none;transition:color .2s;}
+.cr a:hover{color:var(--accent);}
+.ci{color:var(--accent);width:15px;text-align:center;font-size:.85rem;}
+.cl-lst{display:flex;flex-direction:column;gap:.4rem;}
+.cl-it{display:flex;align-items:center;gap:.55rem;font-size:.8rem;color:#8d93aa;}
+.cl-it::before{content:'◆';color:var(--accent);font-size:.42rem;}
+
+/* SEC DIVIDER */
+.sdiv{font-family:'Space Mono',monospace;font-size:.62rem;color:var(--accent);letter-spacing:.2em;text-transform:uppercase;display:flex;align-items:center;gap:.9rem;margin:2.5rem 0 1.8rem;}
+.sdiv::after{content:'';flex:1;height:1px;background:var(--border);}
+
+/* SKILLS */
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:1.4rem;}
+.sk-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.6rem;transition:all .3s;position:relative;overflow:hidden;}
+.sk-card::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,240,181,.04),transparent);opacity:0;transition:opacity .3s;}
+.sk-card:hover{border-color:var(--border-accent);transform:translateY(-4px);box-shadow:var(--glow);}
+.sk-card:hover::after{opacity:1;}
+.sk-cat{font-family:'Syne',sans-serif;font-weight:700;font-size:.78rem;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.9rem;display:flex;align-items:center;gap:.45rem;}
+.sk-icon{font-size:1.1rem;}
+.sk-tags{display:flex;flex-wrap:wrap;gap:.35rem;}
+.sk-tag{font-family:'Space Mono',monospace;font-size:.6rem;padding:.25rem .58rem;background:var(--surface2);border:1px solid var(--border);border-radius:3px;color:#8d93aa;transition:all .2s;cursor:default;}
+.sk-tag:hover{background:rgba(0,240,181,.08);border-color:var(--border-accent);color:var(--accent);}
+.soft-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1.5rem;}
+.soft-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1.3rem;transition:all .25s;}
+.soft-card:hover{border-color:var(--border-accent);transform:scale(1.02);}
+.s-icon{font-size:1.2rem;margin-bottom:.55rem;display:block;}
+.s-name{font-family:'Syne',sans-serif;font-weight:700;font-size:.85rem;margin-bottom:.3rem;}
+.s-desc{font-size:.76rem;color:var(--muted);line-height:1.55;}
+
+/* EXPERIENCE */
+.exp-tl{position:relative;padding-left:1.8rem;}
+.exp-tl::before{content:'';position:absolute;left:0;top:0;bottom:0;width:1px;background:linear-gradient(180deg,var(--accent),var(--accent2),transparent);}
+.exp-blk{position:relative;padding:0 0 2.8rem 2.2rem;}
+.exp-blk::before{content:'';position:absolute;left:-1.8rem;top:.32rem;width:9px;height:9px;border-radius:50%;background:var(--accent);border:2px solid var(--bg);box-shadow:0 0 0 3px rgba(0,240,181,.2);transform:translateX(-50%);}
+.exp-blk:last-child{padding-bottom:0;}
+.exp-hd{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:.5rem;flex-wrap:wrap;gap:.4rem;}
+.exp-role{font-family:'Syne',sans-serif;font-weight:700;font-size:1.05rem;}
+.exp-date{font-family:'Space Mono',monospace;font-size:.62rem;color:var(--accent);letter-spacing:.08em;}
+.exp-org{font-size:.82rem;color:var(--muted);margin-bottom:.8rem;}
+.exp-pts{list-style:none;display:flex;flex-direction:column;gap:.45rem;}
+.exp-pts li{display:flex;align-items:flex-start;gap:.65rem;font-size:.86rem;line-height:1.7;color:#8d93aa;}
+.exp-pts li::before{content:'→';color:var(--accent);flex-shrink:0;margin-top:.15rem;}
+
+/* PROJECTS */
+.proj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:1.8rem;}
+.proj-card{background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:1.9rem;display:flex;flex-direction:column;gap:1rem;position:relative;overflow:hidden;transition:all .35s;}
+.proj-card:hover{transform:translateY(-6px);border-color:rgba(77,108,250,.35);box-shadow:0 24px 60px rgba(0,0,0,.5);}
+.proj-num{position:absolute;top:-14px;right:1.4rem;font-family:'Syne',sans-serif;font-size:4.5rem;font-weight:800;color:rgba(255,255,255,.03);line-height:1;user-select:none;}
+.proj-tags{display:flex;gap:.35rem;flex-wrap:wrap;}
+.proj-tag{font-family:'Space Mono',monospace;font-size:.58rem;color:var(--accent2);background:rgba(77,108,250,.1);border:1px solid rgba(77,108,250,.25);padding:.2rem .52rem;border-radius:3px;letter-spacing:.05em;}
+.proj-ttl{font-family:'Syne',sans-serif;font-size:1.15rem;font-weight:700;line-height:1.2;}
+.proj-dt{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--muted);}
+.proj-desc{font-size:.86rem;line-height:1.75;color:#8d93aa;flex:1;}
+.proj-pts{list-style:none;display:flex;flex-direction:column;gap:.42rem;}
+.proj-pts li{display:flex;align-items:flex-start;gap:.55rem;font-size:.78rem;line-height:1.6;color:#8d93aa;}
+.proj-pts li::before{content:'▸';color:var(--accent);flex-shrink:0;}
+
+/* RESUME */
+.res-tab-row{display:flex;gap:.55rem;margin-bottom:2rem;flex-wrap:wrap;}
+.res-btn{font-family:'Space Mono',monospace;font-size:.65rem;padding:.45rem 1rem;border-radius:5px;cursor:pointer;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;transition:all .2s;border:1px solid var(--border);background:transparent;}
+.res-btn.active{background:var(--surface3);color:var(--accent);border-color:var(--border-accent);}
+.res-btn:hover:not(.active){color:var(--text);border-color:rgba(255,255,255,.15);}
+.res-panel{display:none;}
+.res-panel.active{display:block;}
+.res-doc{background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:2.8rem;max-width:800px;}
+.r-hd{border-bottom:1px solid var(--border);padding-bottom:1.4rem;margin-bottom:1.8rem;}
+.r-name{font-family:'Syne',sans-serif;font-size:1.9rem;font-weight:800;margin-bottom:.35rem;}
+.r-contacts{display:flex;flex-wrap:wrap;gap:.4rem 1.3rem;font-size:.78rem;color:var(--muted);}
+.r-contacts a{color:var(--muted);text-decoration:none;transition:color .2s;}
+.r-contacts a:hover{color:var(--accent);}
+.r-sec{margin-bottom:1.9rem;}
+.r-sec-ttl{font-family:'Space Mono',monospace;font-size:.67rem;text-transform:uppercase;letter-spacing:.18em;color:var(--accent);border-bottom:1px solid var(--border-accent);padding-bottom:.45rem;margin-bottom:1.1rem;}
+.r-sum{font-size:.86rem;line-height:1.75;color:#8d93aa;}
+.r-edu{margin-bottom:.9rem;}
+.r-edu-top{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:.4rem;}
+.r-edu-sch{font-weight:600;font-size:.9rem;}
+.r-edu-dt{font-family:'Space Mono',monospace;font-size:.62rem;color:var(--muted);}
+.r-edu-deg{font-size:.8rem;color:var(--muted);margin-top:.12rem;}
+.r-edu-loc{font-size:.75rem;color:var(--muted);}
+.r-exp{margin-bottom:1.4rem;}
+.r-exp-top{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:.4rem;margin-bottom:.12rem;}
+.r-exp-role{font-weight:600;font-size:.9rem;}
+.r-exp-dt{font-family:'Space Mono',monospace;font-size:.62rem;color:var(--accent);}
+.r-exp-org{font-size:.78rem;color:var(--muted);margin-bottom:.55rem;}
+.r-buls{list-style:none;}
+.r-buls li{display:flex;align-items:flex-start;gap:.5rem;font-size:.8rem;line-height:1.7;color:#8d93aa;padding:.08rem 0;}
+.r-buls li::before{content:'•';color:var(--accent);flex-shrink:0;margin-top:.1rem;}
+.r-sk-grid{display:flex;flex-direction:column;gap:.55rem;}
+.r-sk-row{font-size:.81rem;color:#8d93aa;line-height:1.6;}
+.r-sk-row strong{color:var(--text);font-weight:500;}
+
+/* CONTACT */
+.contact-wrap{display:grid;grid-template-columns:1fr 360px;gap:3.5rem;align-items:start;}
+.contact-intro p{font-size:.95rem;line-height:1.8;color:#8d93aa;margin-bottom:1rem;}
+.contact-intro p strong{color:var(--text);font-weight:500;}
+.cl-cards{display:flex;flex-direction:column;gap:.9rem;margin-top:1.8rem;}
+.cl-card{display:flex;align-items:center;gap:.9rem;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1.1rem 1.3rem;text-decoration:none;color:var(--text);transition:all .25s;}
+.cl-card:hover{border-color:var(--border-accent);transform:translateX(4px);}
+.cl-ico{width:38px;height:38px;border-radius:7px;background:rgba(0,240,181,.08);border:1px solid var(--border-accent);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;}
+.cl-lbl{font-family:'Space Mono',monospace;font-size:.65rem;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;margin-bottom:.12rem;}
+.cl-val{font-size:.82rem;color:var(--muted);}
+.av-card{background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:1.9rem;}
+.av-ttl{font-family:'Syne',sans-serif;font-weight:700;font-size:1.05rem;margin-bottom:1.3rem;}
+.av-roles{display:flex;flex-direction:column;gap:.6rem;}
+.av-role{display:flex;align-items:center;justify-content:space-between;background:var(--surface2);border-radius:6px;padding:.75rem .9rem;font-size:.83rem;}
+.av-badge{font-family:'Space Mono',monospace;font-size:.58rem;padding:.18rem .5rem;border-radius:3px;letter-spacing:.06em;}
+.av-badge.open{background:rgba(0,240,181,.1);color:var(--accent);border:1px solid rgba(0,240,181,.2);}
+.av-badge.tgt{background:rgba(77,108,250,.1);color:var(--accent2);border:1px solid rgba(77,108,250,.2);}
+.goal-pair{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;margin-top:1.3rem;}
+.gm{background:var(--surface2);border-radius:7px;padding:.9rem;border-top:2px solid transparent;}
+.gm.st{border-color:var(--accent);}
+.gm.lt{border-color:var(--accent2);}
+.gm-lbl{font-family:'Space Mono',monospace;font-size:.58rem;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.4rem;}
+.gm-ttl{font-family:'Syne',sans-serif;font-weight:700;font-size:.85rem;}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .65s ease,transform .65s ease;}
+.reveal.in{opacity:1;transform:translateY(0);}
+
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--surface3);border-radius:2px;}
+::-webkit-scrollbar-thumb:hover{background:var(--accent);}
+
+@media(max-width:920px){
+  nav{padding:0 1.2rem;}
+  .nav-tabs{gap:.1rem;}
+  .nav-tab{padding:.35rem .55rem;font-size:.58rem;}
+  .home-hero,.about-grid,.contact-wrap{grid-template-columns:1fr;}
+  .hcard{display:none;}
+  .pw{padding:2.5rem 1.4rem 5rem;}
+  .soft-grid{grid-template-columns:1fr 1fr;}
+  .goal-pair{grid-template-columns:1fr;}
+  .res-doc{padding:1.5rem;}
+}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur-ring"></div>
+
+<nav>
+  <a href="#" class="nav-logo" onclick="showPage('home');return false;">
+    <div class="nav-logo-dot"></div>Khavin Mahesh's Portfolio
+  </a>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showPage('home')">Home</button>
+    <button class="nav-tab" onclick="showPage('about')">About</button>
+    <button class="nav-tab" onclick="showPage('skills')">Skills</button>
+    <button class="nav-tab" onclick="showPage('experience')">Experience</button>
+    <button class="nav-tab" onclick="showPage('projects')">Projects</button>
+    <button class="nav-tab" onclick="showPage('resume')">Resume</button>
+    <button class="nav-tab" onclick="showPage('contact')">Contact</button>
+  </div>
+  <div class="nav-right">
+    <a href="https://github.com/Khavin-Mahesh" target="_blank" class="nav-ext">
+      <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+      GitHub
+    </a>
+    <a href="https://www.linkedin.com/in/khavinmahesh/" target="_blank" class="nav-cta">LinkedIn ↗</a>
+  </div>
+</nav>
+
+<!-- HOME -->
+<div class="page active" id="page-home">
+  <div class="home-hero">
+    <div>
+      <div class="hero-eyebrow"><span></span> Open to Opportunities · Graduating May 2026</div>
+      <h1 class="hero-name"><div class="l1">Khavin</div><div class="l2">Mahesh</div></h1>
+      <p class="hero-sub">IT student at <strong>Marymount University</strong> specializing in cybersecurity &amp; systems. Hands-on with homelabs, pentesting tools, and 5+ years of freelance IT support. Targeting <strong>SOC Analyst</strong> and <strong>Help Desk</strong> roles on the path to becoming a penetration tester.</p>
+      <div class="hero-actions">
+        <a href="https://www.linkedin.com/in/khavinmahesh/" target="_blank" class="btn-p">
+          <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+          Connect on LinkedIn
+        </a>
+        <button class="btn-g" onclick="showPage('projects')">View Projects →</button>
+        <button class="btn-g" onclick="showPage('resume')">View Resume →</button>
+      </div>
+      <div class="hero-tags">
+        <span class="htag">Kali Linux</span><span class="htag">Wireshark</span><span class="htag">Splunk</span>
+        <span class="htag">Metasploit</span><span class="htag">Active Directory</span>
+        <span class="htag">Python</span><span class="htag">Nmap</span><span class="htag">VMware</span>
+      </div>
+    </div>
+    <div class="hcard">
+      <div class="hc-top">
+        <div class="hc-av">KM</div>
+        <div><div class="hc-nm">Khavin Mahesh</div><div class="hc-ttl">IT & Cybersecurity Student</div></div>
+      </div>
+      <div class="hc-stats">
+        <div class="hc-stat"><div class="hc-sn">5+</div><div class="hc-sl">Yrs Freelance</div></div>
+        <div class="hc-stat"><div class="hc-sn">4+</div><div class="hc-sl">Projects</div></div>
+        <div class="hc-stat"><div class="hc-sn">20+</div><div class="hc-sl">Tools</div></div>
+        <div class="hc-stat"><div class="hc-sn">2026</div><div class="hc-sl">Graduating</div></div>
+      </div>
+      <div class="hc-status"><div class="hc-dot"></div> Preparing for CompTIA Security+</div>
+      <div class="hc-chips">
+        <span class="hc-chip">SOC Analyst</span><span class="hc-chip">Help Desk</span>
+        <span class="hc-chip">Sys Admin</span><span class="hc-chip">Pentesting</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div class="page" id="page-about">
+  <div class="pw">
+    <div class="ph"><div class="pg-lbl">About</div><h2 class="pg-ttl">Background &amp; Education</h2></div>
+    <div class="about-grid">
+      <div class="about-body reveal">
+        <p>I'm a <strong>B.S. Information Technology</strong> student at Marymount University with a minor in Cybersecurity, graduating May 2026. I have a strong preference for hands-on, practical learning — whether building a homelab from scratch, running CTF challenges, or helping real clients solve technical issues.</p>
+        <p>My cybersecurity work spans both offense and defense. I've built fully virtualized enterprise environments with Active Directory, DNS, DHCP, and Group Policy; practiced real attacks using Bloodhound, Mimikatz, and CrackMapExec; and analyzed network traffic with Wireshark. I also built a real-time object detection system on a Raspberry Pi for my IT Capstone.</p>
+        <p>Beyond school, I've provided <strong>freelance IT support since 2020</strong> — troubleshooting hardware, software, and network issues for clients across Windows and macOS. That experience gave me the communication and problem-solving foundation that formal education built upon.</p>
+        <p>I'm currently preparing for <strong>CompTIA Security+</strong>, staying active through campus organizations, and continuing to expand my homelab. My long-term goal is a career in <strong>penetration testing</strong>, building from a SOC Analyst or System Administrator role.</p>
+        <div class="sdiv">Campus Involvement</div>
+        <div class="cl-lst">
+          <div class="cl-it">Vision Vanguard Network — Community Outreach Coordinator</div>
+          <div class="cl-it">Women in Cybersecurity (WiCyS) — Event Planner Assistant</div>
+          <div class="cl-it">Photography Club — Member</div>
+          <div class="cl-it">South Asian Club — Member</div>
+          <div class="cl-it">Museum Club — Member</div>
+        </div>
+      </div>
+      <div class="aside reveal" style="transition-delay:.1s">
+        <div class="info-card">
+          <div class="ic-title">Education</div>
+          <div class="edu-item"><div class="edu-sch">Marymount University</div><div class="edu-deg">B.S. IT · Minor: Cybersecurity</div><div class="edu-dt">Expected May 2026 · Arlington, VA</div></div>
+          <div class="edu-item"><div class="edu-sch">Northern Virginia Community College</div><div class="edu-deg">A.S. Information Technology</div><div class="edu-dt">Graduated May 2025 · Manassas, VA</div></div>
+        </div>
+        <div class="info-card">
+          <div class="ic-title">Contact</div>
+          <div class="cr"><span class="ci">📞</span>(571) 373-0486</div>
+          <div class="cr"><span class="ci">✉</span><a href="mailto:khavin.tech@gmail.com">khavin.tech@gmail.com</a></div>
+          <div class="cr"><span class="ci">in</span><a href="https://www.linkedin.com/in/khavinmahesh/" target="_blank">linkedin.com/in/khavinmahesh</a></div>
+          <div class="cr"><span class="ci">🐙</span><a href="https://github.com/Khavin-Mahesh" target="_blank">github.com/Khavin-Mahesh</a></div>
+        </div>
+        <div class="info-card">
+          <div class="ic-title">Relevant Courses</div>
+          <div class="cl-lst">
+            <div class="cl-it">Python Scripting</div><div class="cl-it">Digital Forensics</div>
+            <div class="cl-it">IT Capstone Project</div><div class="cl-it">Cybersecurity: Attack &amp; Defend</div>
+            <div class="cl-it">IT Project Management</div><div class="cl-it">Human Computer Interaction</div>
+            <div class="cl-it">Advanced Java Programming</div><div class="cl-it">Computer Networking</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SKILLS -->
+<div class="page" id="page-skills">
+  <div class="pw">
+    <div class="ph"><div class="pg-lbl">Skills</div><h2 class="pg-ttl">Technical &amp; Soft Skills</h2></div>
+    <div class="skills-grid">
+      <div class="sk-card reveal"><div class="sk-cat"><span class="sk-icon">🛡️</span>Security</div><div class="sk-tags"><span class="sk-tag">Log Analysis</span><span class="sk-tag">Security Monitoring</span><span class="sk-tag">Wireshark</span><span class="sk-tag">Nmap</span><span class="sk-tag">Nessus</span><span class="sk-tag">OpenVAS</span><span class="sk-tag">Metasploit</span><span class="sk-tag">Splunk</span><span class="sk-tag">Bloodhound</span><span class="sk-tag">Mimikatz</span><span class="sk-tag">CrackMapExec</span><span class="sk-tag">Hashcat</span><span class="sk-tag">OSINT</span><span class="sk-tag">Phishing Analysis</span><span class="sk-tag">WPScan</span><span class="sk-tag">Burp Suite</span></div></div>
+      <div class="sk-card reveal" style="transition-delay:.05s"><div class="sk-cat"><span class="sk-icon">🖥️</span>Systems &amp; OS</div><div class="sk-tags"><span class="sk-tag">Windows 10/11</span><span class="sk-tag">macOS</span><span class="sk-tag">Windows Server 2022</span><span class="sk-tag">Kali Linux</span><span class="sk-tag">Ubuntu Server</span><span class="sk-tag">Active Directory</span><span class="sk-tag">DNS / DHCP</span><span class="sk-tag">Group Policy</span><span class="sk-tag">VMware Workstation</span></div></div>
+      <div class="sk-card reveal" style="transition-delay:.1s"><div class="sk-cat"><span class="sk-icon">⌨️</span>Programming</div><div class="sk-tags"><span class="sk-tag">Python</span><span class="sk-tag">PowerShell</span><span class="sk-tag">Bash</span><span class="sk-tag">SQL</span><span class="sk-tag">Java</span></div></div>
+      <div class="sk-card reveal" style="transition-delay:.15s"><div class="sk-cat"><span class="sk-icon">🔧</span>Tools &amp; Platforms</div><div class="sk-tags"><span class="sk-tag">Git / GitHub</span><span class="sk-tag">VSCode</span><span class="sk-tag">Microsoft 365</span><span class="sk-tag">Jira</span><span class="sk-tag">ClickUp</span><span class="sk-tag">Trello</span><span class="sk-tag">Neo4j</span><span class="sk-tag">MySQL</span><span class="sk-tag">SSH</span><span class="sk-tag">RDP</span><span class="sk-tag">TCP/IP</span></div></div>
+      <div class="sk-card reveal" style="transition-delay:.05s"><div class="sk-cat"><span class="sk-icon">🤝</span>IT Support</div><div class="sk-tags"><span class="sk-tag">Hardware Troubleshooting</span><span class="sk-tag">Software Support</span><span class="sk-tag">Network Diagnostics</span><span class="sk-tag">Remote Support</span><span class="sk-tag">Password Resets</span><span class="sk-tag">User Account Mgmt</span><span class="sk-tag">Ticketing Systems</span><span class="sk-tag">Documentation</span></div></div>
+      <div class="sk-card reveal" style="transition-delay:.1s"><div class="sk-cat"><span class="sk-icon">📋</span>Certifications</div><div class="sk-tags"><span class="sk-tag">CompTIA Security+ (In Progress)</span><span class="sk-tag">CTF Competitions</span><span class="sk-tag">Self-Directed Homelab</span><span class="sk-tag">Cybersecurity Training Programs</span></div></div>
+    </div>
+    <div class="sdiv reveal">Soft Skills</div>
+    <div class="soft-grid">
+      <div class="soft-card reveal"><span class="s-icon">🧩</span><div class="s-name">Problem-Solving</div><div class="s-desc">Overcame hardware bottlenecks mid-project by rethinking the approach — identified the real constraint and optimized for it.</div></div>
+      <div class="soft-card reveal"><span class="s-icon">💬</span><div class="s-name">Communication</div><div class="s-desc">Translated complex technical findings into clear client-facing documentation and presentations for non-technical audiences.</div></div>
+      <div class="soft-card reveal"><span class="s-icon">🔍</span><div class="s-name">Analytical Thinking</div><div class="s-desc">Evaluated vulnerability scan results, determined risk levels, and documented findings — under realistic lab conditions.</div></div>
+      <div class="soft-card reveal"><span class="s-icon">🔄</span><div class="s-name">Adaptability</div><div class="s-desc">Rebuilt approaches mid-project multiple times in the homelab and capstone — new tools, new methods, same goal.</div></div>
+      <div class="soft-card reveal"><span class="s-icon">🤝</span><div class="s-name">Collaboration</div><div class="s-desc">Coordinated speakers, teammates, and stakeholders through VVN event planning and group academic projects.</div></div>
+      <div class="soft-card reveal"><span class="s-icon">🎯</span><div class="s-name">Attention to Detail</div><div class="s-desc">Minor config errors in AD or log analysis can cascade badly — thoroughness is non-negotiable in security work.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- EXPERIENCE -->
+<div class="page" id="page-experience">
+  <div class="pw">
+    <div class="ph"><div class="pg-lbl">Experience</div><h2 class="pg-ttl">Work History</h2></div>
+    <div class="exp-tl">
+      <div class="exp-blk reveal">
+        <div class="exp-hd"><div class="exp-role">Freelance IT Support Technician</div><div class="exp-date">2020 – PRESENT</div></div>
+        <div class="exp-org">Self-Employed</div>
+        <ul class="exp-pts">
+          <li>Troubleshot hardware, software, and network issues across Windows and macOS systems for a range of clients.</li>
+          <li>Resolved system performance issues, software errors, and connectivity problems including remote support via screen sharing and RDP.</li>
+          <li>Assisted users with password resets, account access, and basic system configurations.</li>
+          <li>Documented issues and solutions to build a repeatable troubleshooting knowledge base.</li>
+          <li>Built strong client-facing communication skills through 5+ years of independent technical support.</li>
+        </ul>
+      </div>
+      <div class="exp-blk reveal">
+        <div class="exp-hd"><div class="exp-role">Technology Research Analyst Intern</div><div class="exp-date">09/2025 – 12/2025</div></div>
+        <div class="exp-org">Marymount University · Arlington, VA</div>
+        <ul class="exp-pts">
+          <li>Assisted users with troubleshooting technical issues within CyberClinic projects.</li>
+          <li>Analyzed datasets and led training sessions on technical tools and security concepts.</li>
+          <li>Documented workflows and technical processes to improve usability and knowledge transfer.</li>
+          <li>Supported the CTF program and contributed to student cybersecurity training initiatives.</li>
+        </ul>
+      </div>
+      <div class="exp-blk reveal">
+        <div class="exp-hd"><div class="exp-role">Cybersecurity Student Research Assistant</div><div class="exp-date">03/2025 – 08/2025</div></div>
+        <div class="exp-org">Marymount University · Arlington, VA</div>
+        <ul class="exp-pts">
+          <li>Researched cybersecurity best practices and security risks affecting small businesses.</li>
+          <li>Assisted in developing documentation and materials to improve organizational security posture.</li>
+          <li>Communicated technical concepts to non-technical users through reports and presentations.</li>
+          <li>Supported system setup and troubleshooting tasks in lab environments.</li>
+          <li>Attended community outreach events to bridge the gap between academic training and real-world business needs.</li>
+        </ul>
+      </div>
+      <div class="exp-blk reveal">
+        <div class="exp-hd"><div class="exp-role">Community Outreach Coordinator</div><div class="exp-date">02/2025 – PRESENT</div></div>
+        <div class="exp-org">Vision Vanguard Network · Arlington, VA</div>
+        <ul class="exp-pts">
+          <li>Collected, organized, and validated structured datasets tracking 200+ external stakeholders and engagement outcomes.</li>
+          <li>Developed standardized documentation and reporting workflows to improve operational accuracy and follow-up consistency.</li>
+          <li>Connected IT and cybersecurity professionals with students to bridge academia and industry.</li>
+          <li>Organized events including "Using AI to Apply," coordinating guest speakers and managing logistics end-to-end.</li>
+          <li>Conducted resume reviews and provided career guidance to fellow students.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROJECTS -->
+<div class="page" id="page-projects">
+  <div class="pw">
+    <div class="ph"><div class="pg-lbl">Projects</div><h2 class="pg-ttl">Hands-On Work</h2></div>
+    <div class="proj-grid">
+      <div class="proj-card reveal">
+        <div class="proj-num">01</div>
+        <div class="proj-tags"><span class="proj-tag">Python</span><span class="proj-tag">OpenCV</span><span class="proj-tag">YOLOv8</span><span class="proj-tag">MobileNet</span><span class="proj-tag">Raspberry Pi 3</span></div>
+        <div class="proj-ttl">Real-Time Object Detection System</div>
+        <div class="proj-dt">08/2025 – 12/2025 · IT Capstone (IT489-A)</div>
+        <div class="proj-desc">Built a Python-based computer vision pipeline on Raspberry Pi using OpenCV and YOLOv8 for real-time household object detection, then optimized for low-power hardware constraints.</div>
+        <ul class="proj-pts">
+          <li>Engineered a detection pipeline on resource-constrained embedded hardware</li>
+          <li>Evaluated accuracy across varying lighting; recorded structured performance results</li>
+          <li>Identified pre-processing and resolution as bottlenecks — tuned accordingly</li>
+          <li>Documented setup, dependencies, testing, and troubleshooting for reproducibility</li>
+        </ul>
+      </div>
+      <div class="proj-card reveal" style="transition-delay:.1s">
+        <div class="proj-num">02</div>
+        <div class="proj-tags"><span class="proj-tag">VMware</span><span class="proj-tag">Windows Server 2022</span><span class="proj-tag">Kali Linux</span><span class="proj-tag">PowerShell</span><span class="proj-tag">Bash</span></div>
+        <div class="proj-ttl">Sys Admin / Cybersecurity Homelab</div>
+        <div class="proj-dt">06/2025 – Present · Self-Directed</div>
+        <div class="proj-desc">Configured a fully virtualized enterprise-style environment with Windows Server 2022, simulating real network infrastructure and using it as a pentesting practice platform.</div>
+        <ul class="proj-pts">
+          <li>Built AD environment with DNS, DHCP, Group Policy, and user/permission management</li>
+          <li>Analyzed system and network logs to simulate security event monitoring</li>
+          <li>Monitored traffic with Wireshark to detect anomalies and investigate threats</li>
+          <li>Wrote PowerShell and Bash scripts for log collection and automation</li>
+          <li>Simulated alert triage — investigated events and documented findings</li>
+        </ul>
+      </div>
+      <div class="proj-card reveal" style="transition-delay:.05s">
+        <div class="proj-num">03</div>
+        <div class="proj-tags"><span class="proj-tag">Bloodhound</span><span class="proj-tag">Mimikatz</span><span class="proj-tag">CrackMapExec</span><span class="proj-tag">Nmap</span></div>
+        <div class="proj-ttl">Penetration Testing Lab Exercises</div>
+        <div class="proj-dt">Ongoing · Within Homelab</div>
+        <div class="proj-desc">Used offensive security tools within the controlled homelab to practice real attack techniques — AD enumeration, credential testing, and network reconnaissance — in a safe, legal environment.</div>
+        <ul class="proj-pts">
+          <li>AD analysis and attack path mapping using Bloodhound + Neo4j</li>
+          <li>Credential extraction and lateral movement testing with Mimikatz and CME</li>
+          <li>Network reconnaissance and port scanning with Nmap</li>
+          <li>Documented all findings as simulated security reports</li>
+        </ul>
+      </div>
+      <div class="proj-card reveal" style="transition-delay:.15s">
+        <div class="proj-num">04</div>
+        <div class="proj-tags"><span class="proj-tag">WPScan</span><span class="proj-tag">Burp Suite</span><span class="proj-tag">Wireshark</span></div>
+        <div class="proj-ttl">Web Application Security Labs</div>
+        <div class="proj-dt">Coursework · Marymount University</div>
+        <div class="proj-desc">Vulnerability assessments using WPScan and Burp Suite on web application targets, combined with network traffic analysis and formal written findings reports.</div>
+        <ul class="proj-pts">
+          <li>Full scan → analyze → report workflow on web app targets</li>
+          <li>Identified vulnerabilities and assessed severity and impact</li>
+          <li>Produced lab reports with screenshots, analysis, and risk summaries</li>
+          <li>Applied packet capture and network traffic interpretation</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RESUME -->
+<div class="page" id="page-resume">
+  <div class="pw">
+    <div class="ph"><div class="pg-lbl">Resume</div><h2 class="pg-ttl">View &amp; Download</h2></div>
+    <div class="res-tab-row">
+      <button class="res-btn active" onclick="swapRes('soc',this)">SOC / Security Analyst Version</button>
+      <button class="res-btn" onclick="swapRes('its',this)">IT Support / Sysadmin Version</button>
+    </div>
+
+    <!-- SOC -->
+    <div class="res-panel active" id="res-soc">
+      <div class="res-doc reveal">
+        <div class="r-hd">
+          <div class="r-name">Khavin Mahesh</div>
+          <div class="r-contacts">
+            <span>📞 (571) 373-0486</span>
+            <a href="mailto:khavin.tech@gmail.com">✉ khavin.tech@gmail.com</a>
+            <a href="https://www.linkedin.com/in/khavinmahesh/" target="_blank">in linkedin.com/in/khavinmahesh</a>
+            <a href="https://github.com/Khavin-Mahesh" target="_blank">🐙 github.com/Khavin-Mahesh</a>
+          </div>
+        </div>
+        <div class="r-sec"><div class="r-sec-ttl">Professional Summary</div><div class="r-sum">Entry-level cybersecurity professional with hands-on experience in log analysis, security monitoring, and technical support through a homelab and freelance work. Skilled in troubleshooting systems, analyzing events, and working with tools such as Wireshark, Splunk, and Active Directory. Currently preparing for CompTIA Security+.</div></div>
+        <div class="r-sec">
+          <div class="r-sec-ttl">Education</div>
+          <div class="r-edu"><div class="r-edu-top"><div class="r-edu-sch">Marymount University</div><div class="r-edu-dt">Expected Spring 2026</div></div><div class="r-edu-deg">Bachelor of Science in Information Technology, Minor in Cybersecurity</div><div class="r-edu-loc">Arlington, VA</div></div>
+          <div class="r-edu"><div class="r-edu-top"><div class="r-edu-sch">Northern Virginia Community College</div><div class="r-edu-dt">May 2025</div></div><div class="r-edu-deg">Associate of Science in Information Technology</div><div class="r-edu-loc">Manassas, VA</div></div>
+        </div>
+        <div class="r-sec">
+          <div class="r-sec-ttl">Relevant Experience</div>
+          <div class="r-exp"><div class="r-exp-top"><div class="r-exp-role">Freelance IT Support Technician</div><div class="r-exp-dt">2020 – Present</div></div><div class="r-exp-org">Self-Employed</div><ul class="r-buls"><li>Troubleshot hardware, software, and network issues across Windows and macOS systems.</li><li>Resolved system performance, software, and connectivity issues, including remote support via screen sharing.</li></ul></div>
+          <div class="r-exp"><div class="r-exp-top"><div class="r-exp-role">Technology Research Analyst Intern</div><div class="r-exp-dt">09/2025 – 12/2025</div></div><div class="r-exp-org">Marymount University · Arlington, VA</div><ul class="r-buls"><li>Assisted users with troubleshooting technical issues within CyberClinic projects.</li><li>Analyzed datasets and led training sessions on technical tools and security concepts.</li></ul></div>
+          <div class="r-exp"><div class="r-exp-top"><div class="r-exp-role">Cybersecurity Student Research Assistant</div><div class="r-exp-dt">03/2025 – 08/2025</div></div><div class="r-exp-org">Marymount University · Arlington, VA</div><ul class="r-buls"><li>Researched cybersecurity best practices and security risks affecting small businesses.</li><li>Assisted in developing documentation and materials to improve organizational security posture.</li><li>Communicated technical concepts to non-technical users through reports and presentations.</li></ul></div>
+          <div class="r-exp"><div class="r-exp-top"><div class="r-exp-role">Community Outreach Coordinator</div><div class="r-exp-dt">02/2025 – Present</div></div><div class="r-exp-org">Vision Vanguard Network · Arlington, VA</div><ul class="r-buls"><li>Collected, organized, and validated structured datasets tracking 200+ external stakeholders and engagement outcomes.</li><li>Developed standardized documentation and reporting workflows to improve operational accuracy and follow-up consistency.</li></ul></div>
+        </div>
+        <div class="r-sec">
+          <div class="r-sec-ttl">Projects</div>
+          <div class="r-exp"><div class="r-exp-top"><div class="r-exp-role">Object Detection Software | Python, OpenCV, Raspberry Pi 3, YOLOv8, MobileNet</div><div class="r-exp-dt">08/2025 – 12/2025</div></div><ul class="r-buls"><li>Built a Python-based computer vision pipeline on Raspberry Pi using OpenCV and YOLOv8 for real-time detection, optimizing performance for low-power hardware.</li><li>Evaluated detection accuracy across varying lighting conditions and environments, recording structured performance results.</li><li>Documented system setup, dependencies, testing procedures, and troubleshooting steps to ensure reproducibility.</li></ul></div>
+          <div class="r-exp"><div class="r-exp-top"><div class="r-exp-role">Sys Admin / Cybersecurity Homelab | VMware, Windows Server, Kali Linux, Bash</div><div class="r-exp-dt">06/2025 – Present</div></div><ul class="r-buls"><li>Configured and maintained Windows Server 2022 with Active Directory, DNS, DHCP, and Group Policy to simulate enterprise infrastructure.</li><li>Analyzed system and network logs to identify suspicious activity and simulate security event monitoring.</li><li>Monitored network traffic using Wireshark to detect anomalies and investigate potential threats.</li><li>Simulated basic alert triage by investigating security events and documenting findings.</li><li>Developed PowerShell and Bash scripts for log collection, system configuration, and automation.</li></ul></div>
+        </div>
+        <div class="r-sec"><div class="r-sec-ttl">Technical Skills</div><div class="r-sk-grid"><div class="r-sk-row"><strong>Security:</strong> Log analysis, security event monitoring, phishing analysis, OSINT, Wireshark, Nmap, Nessus, OpenVAS, Metasploit, Splunk</div><div class="r-sk-row"><strong>Systems:</strong> Windows 10/11, macOS, Windows Server, Active Directory, DNS, DHCP, Group Policy, virtualization (VMware)</div><div class="r-sk-row"><strong>Tools:</strong> Jira, ClickUp, Trello, TCP/IP fundamentals</div><div class="r-sk-row"><strong>Scripting:</strong> Python, PowerShell, Bash, SQL</div></div></div>
+      </div>
+    </div>
+
+    <!-- ITS -->
+    <div class="res-panel" id="res-its">
+      <div class="res-doc reveal">
+        <div class="r-hd">
+          <div class="r-name">Khavin Mahesh</div>
+          <div class="r-contacts">
+            <span>📞 (571) 373-0486</span>
+            <a href="mailto:khavin.tech@gmail.com">✉ khavin.tech@gmail.com</a>
+            <a href="https://www.linkedin.com/in/khavinmahesh/" target="_blank">in linkedin.com/in/khavinmahesh</a>
+            <a href="https://github.com/Khavin-Mahesh" target="_blank">🐙 github.com/Khavin-Mahesh</a>
+          </div>
+        </div>
+        <div class="r-sec"><div class="r-sec-ttl">Professional Summary</div><div class="r-sum">Entry-level IT Support Technician with hands-on experience troubleshooting hardware, software, and network issues across Windows and macOS systems. Proven ability to diagnose technical problems, support users, and communicate solutions effectively in fast-paced environments. Strong foundation in system administration and IT operations, with a focus on delivering reliable technical support. Currently preparing for CompTIA Security+.</div></div>
+        <div class="r-sec">
+          <div class="r-sec-ttl">Education</div>
+          <div class="r-edu"><div class="r-edu-top"><div class="r-edu-sch">Marymount University</div><div class="r-edu-dt">Expected Spring 2026</div></div><div class="r-edu-deg">Bachelor of Science in Information Technology, Minor in Cybersecurity</div><div class="r-edu-loc">Arlington, VA</div></div>
+          <div class="r-edu"><div class="r-edu-top"><div class="r-edu-sch">Northern Virginia Community College</div><div class="r-edu-dt">May 2025</div></div><div class="r-edu-deg">Associate of Science in Information Technology</div><div class="r-edu-loc">Manassas, VA</div></div>
+        </div>
+        <div class="r-sec">
+          <div class="r-sec-ttl">Relevant Experience</div>
+          <div class="r-exp"><div class="r-exp-top"><div class="r-exp-role">Freelance IT Support Technician</div><div class="r-exp-dt">2020 – Present</div></div><div class="r-exp-org">Self-Employed</div><ul class="r-buls"><li>Troubleshot hardware, software, and network issues across Windows and macOS systems.</li><li>Resolved system performance issues, software errors, and connectivity problems for users.</li><li>Provided remote technical support using screen sharing and remote access tools (RDP, etc.).</li><li>Assisted users with password resets, account access, and basic system configurations.</li><li>Documented issues and solutions to improve troubleshooting efficiency.</li></ul></div>
+          <div class="r-exp"><div class="r-exp-top"><div class="r-exp-role">Technology Research Analyst Intern</div><div class="r-exp-dt">09/2025 – 12/2025</div></div><div class="r-exp-org">Marymount University · Arlington, VA</div><ul class="r-buls"><li>Troubleshot technical issues for users within CyberClinic projects.</li><li>Documented workflows and technical processes to improve usability.</li><li>Led training sessions on technical tools and systems.</li></ul></div>
+          <div class="r-exp"><div class="r-exp-top"><div class="r-exp-role">Cybersecurity Student Research Assistant</div><div class="r-exp-dt">03/2025 – 08/2025</div></div><div class="r-exp-org">Marymount University · Arlington, VA</div><ul class="r-buls"><li>Supported system setup and troubleshooting tasks in lab environments.</li><li>Created documentation to explain technical concepts to non-technical users.</li></ul></div>
+          <div class="r-exp"><div class="r-exp-top"><div class="r-exp-role">Community Outreach Coordinator</div><div class="r-exp-dt">02/2025 – Present</div></div><div class="r-exp-org">Vision Vanguard Network · Arlington, VA</div><ul class="r-buls"><li>Managed and validated structured datasets tracking 200+ stakeholders.</li><li>Developed documentation workflows to improve operational efficiency.</li></ul></div>
+        </div>
+        <div class="r-sec">
+          <div class="r-sec-ttl">Projects</div>
+          <div class="r-exp"><div class="r-exp-top"><div class="r-exp-role">IT Homelab (System Administration) | VMware, Windows Server</div><div class="r-exp-dt">06/2025 – Present</div></div><ul class="r-buls"><li>Configured Windows Server 2022 with Active Directory, DNS, DHCP, and Group Policy.</li><li>Created and managed user accounts and permissions in a simulated enterprise environment.</li><li>Troubleshot system and network issues across Windows and Linux virtual machines.</li></ul></div>
+          <div class="r-exp"><div class="r-exp-top"><div class="r-exp-role">Object Detection Software | Python, OpenCV, Raspberry Pi</div><div class="r-exp-dt">08/2025 – 12/2025</div></div><ul class="r-buls"><li>Built a Python-based application using OpenCV and YOLOv8 for real-time detection.</li><li>Troubleshot system performance issues and optimized configurations.</li></ul></div>
+        </div>
+        <div class="r-sec"><div class="r-sec-ttl">Technical Skills</div><div class="r-sk-grid"><div class="r-sk-row"><strong>Operating Systems:</strong> Windows 10/11, macOS, Windows Server</div><div class="r-sk-row"><strong>IT Support:</strong> Troubleshooting (hardware/software/network), Active Directory, user accounts, password resets, remote support, ticketing systems</div><div class="r-sk-row"><strong>Systems/Networking:</strong> DNS, DHCP, Group Policy, TCP/IP, VMware</div><div class="r-sk-row"><strong>Tools:</strong> Microsoft 365, Jira, ClickUp, Trello, Wireshark</div><div class="r-sk-row"><strong>Scripting:</strong> PowerShell, Python, Bash, SQL</div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div class="page" id="page-contact">
+  <div class="pw">
+    <div class="ph"><div class="pg-lbl">Contact</div><h2 class="pg-ttl">Let's Connect</h2></div>
+    <div class="contact-wrap">
+      <div class="contact-intro reveal">
+        <p>I'm actively looking for opportunities in <strong>cybersecurity, IT support, SOC analysis, and system administration</strong> — ideally starting before or around graduation in May 2026.</p>
+        <p>I bring 5+ years of freelance IT experience, real hands-on lab environments, and a genuine passion for security. If you're hiring, mentoring, or want to talk about the field — I'd love to hear from you.</p>
+        <div class="cl-cards">
+          <a href="https://www.linkedin.com/in/khavinmahesh/" target="_blank" class="cl-card"><div class="cl-ico">in</div><div><div class="cl-lbl">LinkedIn</div><div class="cl-val">linkedin.com/in/khavinmahesh</div></div></a>
+          <a href="https://github.com/Khavin-Mahesh" target="_blank" class="cl-card"><div class="cl-ico">🐙</div><div><div class="cl-lbl">GitHub</div><div class="cl-val">github.com/Khavin-Mahesh</div></div></a>
+          <a href="mailto:khavin.tech@gmail.com" class="cl-card"><div class="cl-ico">✉</div><div><div class="cl-lbl">Email</div><div class="cl-val">khavin.tech@gmail.com</div></div></a>
+          <a href="tel:5713730486" class="cl-card"><div class="cl-ico">📞</div><div><div class="cl-lbl">Phone</div><div class="cl-val">(571) 373-0486</div></div></a>
+        </div>
+      </div>
+      <div class="reveal" style="transition-delay:.1s">
+        <div class="av-card">
+          <div class="av-ttl">Open to Opportunities</div>
+          <div class="av-roles">
+            <div class="av-role"><span>SOC Analyst</span><span class="av-badge open">Open</span></div>
+            <div class="av-role"><span>IT Help Desk / Support</span><span class="av-badge open">Open</span></div>
+            <div class="av-role"><span>System Administrator</span><span class="av-badge open">Open</span></div>
+            <div class="av-role"><span>Penetration Tester</span><span class="av-badge tgt">Long-Term Goal</span></div>
+          </div>
+          <div class="goal-pair">
+            <div class="gm st"><div class="gm-lbl">Short-Term</div><div class="gm-ttl">SOC / Help Desk / Sysadmin</div></div>
+            <div class="gm lt"><div class="gm-lbl">Long-Term</div><div class="gm-ttl">Penetration Tester</div></div>
+          </div>
+        </div>
+        <div style="margin-top:1.1rem">
+          <a href="https://www.linkedin.com/in/khavinmahesh/" target="_blank" class="btn-p" style="width:100%;justify-content:center">
+            <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+            View LinkedIn Profile
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Cursor
+const cur=document.getElementById('cur'),ring=document.getElementById('cur-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+(function anim(){rx+=(mx-rx)*.13;ry+=(my-ry)*.13;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(anim);})();
+
+// Pages
+const pageOrder=['home','about','skills','experience','projects','resume','contact'];
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  const i=pageOrder.indexOf(id);
+  if(i>=0)document.querySelectorAll('.nav-tab')[i].classList.add('active');
+  window.scrollTo({top:0,behavior:'instant'});
+  setTimeout(triggerReveals,60);
+}
+
+// Resume tabs
+function swapRes(id,btn){
+  document.querySelectorAll('.res-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.res-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('res-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// Reveal
+const ro=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');});},{threshold:.08});
+function triggerReveals(){document.querySelectorAll('.page.active .reveal').forEach(el=>ro.observe(el));}
+setTimeout(()=>{document.querySelectorAll('#page-home .reveal').forEach(el=>el.classList.add('in'));},80);
+triggerReveals();
+</script>
+</body>
+</html>
